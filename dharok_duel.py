@@ -12,7 +12,7 @@ class Player:
 
     def reset(self):
         self.hp = 99
-        self.shark_count = 4
+        self.shark_count = 6
         self.karambwan_count = 2
 
     def attack(self, opponent):
@@ -46,7 +46,7 @@ class Player:
         return self.strategy(self, opponent)
     
 def strategy1(player, opponent):
-    if player.hp < 54 and player.shark_count > 0 and player.karambwan_count > 0:
+    if player.hp < 45 and player.shark_count > 0 and player.karambwan_count > 0:
         player.eat_shark_and_karambwan()
     else:
         player.attack(opponent)

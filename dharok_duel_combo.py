@@ -12,7 +12,7 @@ class Player:
 
     def reset(self):
         self.hp = 99
-        self.shark_count = 4
+        self.shark_count = 6
         self.karambwan_count = 2
 
     def attack(self, opponent):
