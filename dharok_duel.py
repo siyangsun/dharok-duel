@@ -4,7 +4,7 @@ class Player:
     def __init__(self, name, attack_level=99, defense_level=99):
         self.name = name
         self.hp = 99
-        self.shark_count = 4
+        self.shark_count = 6
         self.karambwan_count = 2
         self.attack_level = attack_level
         self.defense_level = defense_level
@@ -46,7 +46,7 @@ class Player:
         return self.strategy(self, opponent)
     
 def strategy1(player, opponent):
-    if player.hp < 40 and player.shark_count > 0 and player.karambwan_count > 0:
+    if player.hp < 54 and player.shark_count > 0 and player.karambwan_count > 0:
         player.eat_shark_and_karambwan()
     else:
         player.attack(opponent)
@@ -84,6 +84,18 @@ def strategy5(player, opponent):
     else:
         player.attack(opponent)
 
+def strategy6(player, opponent):
+    opponent_max_hit = 44 + (42 * ((99 - opponent.hp) // 98))
+    if opponent_max_hit < player.hp:
+        player.attack(opponent)
+    else:
+        if player.hp + 38 <= 99 and player.shark_count > 0 and player.karambwan_count > 0:
+            player.eat_shark_and_karambwan()
+        elif player.shark_count > 0:
+            player.eat_shark()
+        else:
+            player.attack(opponent)
+
 def simulate_game(strategy1, strategy2):
     player1 = Player("Player 1")
     player2 = Player("Player 2")
@@ -104,8 +116,8 @@ def simulate_game(strategy1, strategy2):
         players.reverse()
 
 def run_simulations():
-    strategies = [strategy1, strategy2, strategy3, strategy4, strategy5]
-    strategy_names = ["2-tick", "yolo", "???", "Safer", "Opponent hp"]
+    strategies = [strategy1, strategy2, strategy3, strategy4, strategy5, strategy6]
+    strategy_names = ["2-tick", "yolo", "???", "Safer", "Opponent hp", "actual safer"]
     results = {name: {name: 0 for name in strategy_names} for name in strategy_names}
     
     for i, strat1 in enumerate(strategies):
