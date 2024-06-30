@@ -53,9 +53,9 @@ def strategy6(player, opponent):
         else:
             player.attack(opponent)
 
-def simulate_game(strategy1, strategy2):
-    player1 = Player("Player 1")
-    player2 = Player("Player 2")
+def simulate_game(strategy1, strategy2, debug=False):
+    player1 = Player("Player 1", debug=debug)
+    player2 = Player("Player 2", debug=debug)
     player1.strategy = strategy1
     player2.strategy = strategy2
     
@@ -72,7 +72,7 @@ def simulate_game(strategy1, strategy2):
         
         players.reverse()
 
-def run_simulations():
+def run_simulations(n_sims=100):
     strategies = [strategy1, strategy2, strategy3, strategy4, strategy5, strategy6]
     strategy_names = ["2-tick", "yolo", "???", "Safer", "Opponent hp", "actual safer"]
     results = {name: {name: 0 for name in strategy_names} for name in strategy_names}
@@ -81,16 +81,16 @@ def run_simulations():
         for j, strat2 in enumerate(strategies):
             if i != j:
                 wins = 0
-                for _ in range(10000):
+                for _ in range(n_sims):
                     winner = simulate_game(strat1, strat2)
                     if winner == "Player 1":
                         wins += 1
                 results[strategy_names[i]][strategy_names[j]] = wins
-                results[strategy_names[j]][strategy_names[i]] = 10000 - wins
+                results[strategy_names[j]][strategy_names[i]] = n_sims - wins
 
     return results
 
-results = run_simulations()
+results = run_simulations(n_sims=100)
 for strategy, outcomes in results.items():
     print(f"{strategy} results:")
     for opponent_strategy, wins in outcomes.items():
