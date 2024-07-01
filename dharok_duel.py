@@ -6,9 +6,11 @@ def strategy1(player, opponent):
     if player.hp < 45 and player.shark_count > 0 and player.karambwan_count > 0:
         player.eat_shark_and_karambwan()
     else:
+        player.throw_knives(opponent)
         player.attack(opponent)
 
 def strategy2(player, opponent):
+    player.throw_knives(opponent)
     player.attack(opponent)
 
 def strategy3(player, opponent):
@@ -23,6 +25,7 @@ def strategy3(player, opponent):
         elif choice == 'shark_and_karambwan' and player.shark_count > 0 and player.karambwan_count > 0:
             player.eat_shark_and_karambwan()
         else:
+            player.throw_knives(opponent)
             player.attack(opponent)
 
 def strategy4(player, opponent):
@@ -31,10 +34,12 @@ def strategy4(player, opponent):
     elif player.hp < 60 and player.shark_count > 0:
         player.eat_shark()
     else:
+        player.throw_knives(opponent)
         player.attack(opponent)
 
 def strategy5(player, opponent):
     if opponent.hp < player.hp:
+        player.throw_knives(opponent)
         player.attack(opponent)
     elif player.hp < 40 and player.shark_count > 0 and player.karambwan_count > 0:
         player.eat_shark_and_karambwan()
@@ -44,6 +49,7 @@ def strategy5(player, opponent):
 def strategy6(player, opponent):
     opponent_max_hit = 44 + (42 * ((99 - opponent.hp) // 98))
     if opponent_max_hit < player.hp:
+        player.throw_knives(opponent)
         player.attack(opponent)
     else:
         if player.hp + 38 <= 99 and player.shark_count > 0 and player.karambwan_count > 0:
@@ -51,9 +57,10 @@ def strategy6(player, opponent):
         elif player.shark_count > 0:
             player.eat_shark()
         else:
+            player.throw_knives(opponent)
             player.attack(opponent)
 
-def simulate_game(strategy1, strategy2, debug=False):
+def simulate_game(strategy1, strategy2, debug=False): # we should probably pass strategy names into player names
     player1 = Player("Player 1", debug=debug)
     player2 = Player("Player 2", debug=debug)
     player1.strategy = strategy1
@@ -90,7 +97,7 @@ def run_simulations(n_sims=100):
 
     return results
 
-results = run_simulations(n_sims=100)
+results = run_simulations(n_sims=1000)
 for strategy, outcomes in results.items():
     print(f"{strategy} results:")
     for opponent_strategy, wins in outcomes.items():
