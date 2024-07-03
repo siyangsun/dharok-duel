@@ -10,24 +10,28 @@ def strategy1(player, opponent):
         player.attack(opponent)
 
 def strategy2(player, opponent):
+    if player.zamorak_brew_count > 0 and player.hp > 11:
+        player.drink_zamorak_brew()
     player.throw_knives(opponent)
     player.attack(opponent)
 
 def strategy3(player, opponent):
-    if player.shark_count == 0 and player.karambwan_count == 0:
+    def aggressive_move():
+        if player.zamorak_brew_count > 0 and player.hp > 11:
+            player.drink_zamorak_brew()
+        player.throw_knives(opponent)
         player.attack(opponent)
+    if player.shark_count == 0 and player.karambwan_count == 0:
+        aggressive_move()
     else:
         choice = random.choice(['attack', 'shark', 'shark_and_karambwan'])
         player.accurate_axe_style = random.random() < 0.5
         if choice == 'attack':
-            player.attack(opponent)
+            aggressive_move()
         elif choice == 'shark' and player.shark_count > 0:
             player.eat_shark()
-        elif choice == 'shark_and_karambwan' and player.shark_count > 0 and player.karambwan_count > 0:
-            player.eat_shark_and_karambwan()
         else:
-            player.throw_knives(opponent)
-            player.attack(opponent)
+            player.eat_shark_and_karambwan()
 
 def strategy4(player, opponent):
     if player.hp < 40 and player.shark_count > 0 and player.karambwan_count > 0:
@@ -35,20 +39,27 @@ def strategy4(player, opponent):
     elif player.hp < 60 and player.shark_count > 0:
         player.eat_shark()
     else:
+        if player.zamorak_brew_count > 0 and player.hp > 60:
+            player.drink_zamorak_brew()
         player.throw_knives(opponent)
         player.attack(opponent)
 
 def strategy5(player, opponent):
     if opponent.hp < player.hp:
+        if player.zamorak_brew_count > 0 and player.hp > 11:
+            player.drink_zamorak_brew()
         player.throw_knives(opponent)
         player.attack(opponent)
     elif player.hp < 40 and player.shark_count > 0 and player.karambwan_count > 0:
         player.eat_shark_and_karambwan()
     else:
+        player.throw_knives(opponent)
         player.attack(opponent)
 
 def strategy6(player, opponent):
     opponent_max_hit = 44 + (42 * ((99 - opponent.hp) // 98))
+    if player.zamorak_brew_count > 0 and player.hp > (opponent_max_hit + 11):
+        player.drink_zamorak_brew()
     if opponent_max_hit < player.hp:
         player.throw_knives(opponent)
         player.attack(opponent)
