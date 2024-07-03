@@ -42,6 +42,7 @@ class Player:
         self.strategy = None
         self.knife_strategy = None
         self.debug = debug
+        self.accurate_axe_style = False # hack is higher dps than chop
 
     def reset(self):
         self.hp = MAX_LEVEL
@@ -51,11 +52,19 @@ class Player:
 
     @property
     def effective_attack_level(self):
-        return effective_stat(self.attack_level, 0, PRAYER_BONUSES["attack"], 0) # for now assuming we always use hack instead of chop
+        if self.accurate_axe_style:
+            style_bonus = 0
+        else:
+            style_bonus = CHOSEN_ATTACK_STYLE_BONUS
+        return effective_stat(self.attack_level, 0, PRAYER_BONUSES["attack"], style_bonus)
     
     @property
     def effective_strength_level(self):
-        return effective_stat(self.strength_level, 0, PRAYER_BONUSES["strength"], CHOSEN_ATTACK_STYLE_BONUS)
+        if self.accurate_axe_style:
+            style_bonus = CHOSEN_ATTACK_STYLE_BONUS
+        else:
+            style_bonus = 0
+        return effective_stat(self.strength_level, 0, PRAYER_BONUSES["strength"], style_bonus)
     
     @property
     def effective_defense_level(self):

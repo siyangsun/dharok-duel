@@ -18,6 +18,7 @@ def strategy3(player, opponent):
         player.attack(opponent)
     else:
         choice = random.choice(['attack', 'shark', 'shark_and_karambwan'])
+        player.accurate_axe_style = random.random() < 0.5
         if choice == 'attack':
             player.attack(opponent)
         elif choice == 'shark' and player.shark_count > 0:
