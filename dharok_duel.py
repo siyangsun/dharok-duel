@@ -109,7 +109,7 @@ def run_simulations(n_sims=100):
 
     return results
 
-results = run_simulations(n_sims=1000)
+results = run_simulations(n_sims=10000)
 for strategy, outcomes in results.items():
     print(f"{strategy} results:")
     for opponent_strategy, wins in outcomes.items():

@@ -101,7 +101,7 @@ class Player:
         else:
             return math.floor((self.effective_strength_level * (EQUIPMENT_BONUSES["strength"] + 64) + 320) / 640)
 
-    def hit_success(self, attack_roll, defense_roll): # this will need some revamp if we include the knives
+    def hit_success(self, attack_roll, defense_roll):
         debug_message = ""
         if attack_roll > defense_roll:
             hit_chance = 1 - (defense_roll + 2) / (2 * (attack_roll + 1))
